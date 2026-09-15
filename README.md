@@ -8,10 +8,10 @@
 
 | Field | Value |
 |---|---|
-| **Team Name** | [Your Team Name] |
-| **Track** | [AI / DevOps / Sustainability / Open] |
-| **Team Lead** | [Name] — [email@ibm.com] |
-| **Members** | [Name 1], [Name 2], [Name 3] |
+| **Team Name** | [CodeQueens] |
+| **Track** | [AI] |
+| **Team Lead** | [Lavanya Parekh] — [parekhlavanya@gmail.com] |
+| **Members** | [Vidhi], [Sakshi], [Tanisha] |
 
 ---
 
@@ -20,6 +20,7 @@
 > In 2–3 sentences: What problem does your project solve? Who experiences this problem?
 
 [Describe the real-world problem your project addresses. Be specific about who the user is and what pain point they face.]
+Logistics operators face difficulty managing multiple shipments when road closures, port disruptions, or weather events occur. These disruptions make it hard to quickly identify affected shipments, prioritize urgent deliveries, find alternate routes and available vehicles, and manage cold-chain risks. ChainGuard AI helps logistics teams make these decisions quickly and effectively.
 
 ---
 
@@ -29,15 +30,16 @@
 
 [Describe your solution clearly. Explain the core mechanism — what makes it work.]
 
+Logistics operators face challenges in managing shipments when road closures, port disruptions, or weather events occur. These disruptions can affect multiple shipments at once, making it difficult to quickly identify risks, choose alternate routes, allocate available vehicles, and monitor cold-chain shipments. ChainGuard AI helps logistics teams make these decisions faster and more effectively.
 ---
 
 ## ✨ Key Features
 
-- **Feature 1:** [Brief description — e.g., "Real-time anomaly detection using watsonx.ai"]
-- **Feature 2:** [Brief description]
-- **Feature 3:** [Brief description]
-- **Feature 4:** [Optional]
-- **Feature 5:** [Optional]
+- **Feature 1:** [Identifies shipments affected by route or facility disruptions.]
+- **Feature 2:** [Scores and explains the risk level of affected shipments]
+- **Feature 3:** [Recommends alternate routes and suitable idle vehicles.]
+- **Feature 4:** [Detects temperature excursions and classifies their severity]
+- **Feature 5:** [Provides priorities, alerts, and clear reasons behind suggested actions]
 
 ---
 
@@ -45,11 +47,11 @@
 
 | Category | Technologies |
 |---|---|
-| **Languages** | [e.g., Python, TypeScript] |
-| **Frameworks** | [e.g., FastAPI, React] |
-| **IBM Technologies** | [e.g., watsonx.ai, IBM Bob, IBM Cloud] |
-| **Databases** | [e.g., PostgreSQL, Redis] |
-| **Other** | [e.g., Docker, GitHub Actions] |
+| **Languages** | Python, JavaScript |
+| **Frameworks** | FastAPI, React |
+| **IBM Technologies** | IBM Bob, watsonx.ai |
+| **Databases** | PostgreSQL |
+| **Other** | GitHub, Webhooks |
 
 ---
 
@@ -97,10 +99,10 @@ cp .env.example .env
 
 | Artifact | Link |
 |---|---|
-| 📹 Demo Video | [See demo/demo-video-link.txt](demo/demo-video-link.txt) |
-| 🌐 Live Demo | [See demo/live-demo-url.txt](demo/live-demo-url.txt) |
-| 🖼️ Screenshots | [See demo/screenshots/](demo/screenshots/) |
-| 📊 Presentation | [See presentation/slides.pdf](presentation/) |
+| 📹 Demo Video | https://github.com/lavanya7206/bob-ai-hackathon-CodeQueens/blob/main/demo/demo-video-link.txt
+| 🌐 Live Demo | https://github.com/lavanya7206/bob-ai-hackathon-CodeQueens/blob/main/demo/live-demo-url.txt
+| 🖼️ Screenshots | https://github.com/lavanya7206/bob-ai-hackathon-CodeQueens/tree/main/demo/screenshots/Screenshot_File
+| 📊 Presentation | https://github.com/lavanya7206/bob-ai-hackathon-CodeQueens/tree/main/presentation
 
 ---
 
@@ -108,14 +110,14 @@ cp .env.example .env
 
 > Be honest — judges appreciate transparency over overclaiming.
 
-- [Limitation 1: e.g., "Authentication is mocked — not production-ready"]
-- [Limitation 2: e.g., "Only tested on Chrome"]
-- [Limitation 3: e.g., "Feature X is scaffolded but not fully implemented"]
+Mock operational data – The current prototype uses simulated data instead of live logistics data.
+No live integrations – TMS, GPS, carrier, weather, and IoT feeds are planned for future integration.
+Prototype-level AI integration – watsonx.ai is an integration path and is not presented as fully implemented in the current prototype.
+Limited prediction capability – The current version focuses on disruption simulation and rule-based decision support rather than predicting future disruptions.
 
 ---
 
 ## 🏅 What We're Most Proud Of
 
-[Tell the judges what part of your submission is strongest and worth paying close attention to.]
-
+We are most proud of ChainGuard AI’s ability to turn a supply-chain disruption into clear, prioritized actions. Instead of only showing the problem, it identifies affected shipments, scores their risk, recommends alternate routes and suitable vehicles, and flags cold-chain risks with explainable recommendations.
 ---
