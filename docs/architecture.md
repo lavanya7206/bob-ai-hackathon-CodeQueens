@@ -2,48 +2,41 @@
 
 ## System Architecture
 
-[Describe the overall architecture of your system. Replace the Mermaid diagram below with your actual architecture.]
+ChainGuard AI uses a simple layered architecture. The user interacts with the dashboard, which communicates with the backend. The backend handles shipment, fleet, route, and temperature-related operations and connects with the required services.
 
-```mermaid
-graph TD
-    A[User / Browser] -->|HTTP| B[Frontend - React]
-    B -->|REST API| C[Backend - FastAPI]
-    C -->|SDK| D[watsonx.ai]
-    C -->|Query| E[PostgreSQL]
-    C -->|Publish| F[Slack Webhook]
-    D -->|Inference Result| C
-```
+```text
+User / Browser
+      ↓
+Frontend - React
+      ↓
+Backend - FastAPI
+   ↙    ↓      ↘
+watsonx.ai  PostgreSQL  Slack Webhook
 
 ## Components
 
-| Component | Technology | Responsibility |
-|---|---|---|
-| Frontend | [e.g., React 18] | [e.g., Dashboard UI, user interaction] |
-| Backend API | [e.g., FastAPI] | [e.g., Business logic, orchestration] |
-| AI / ML | [e.g., watsonx.ai] | [e.g., Anomaly scoring, classification] |
-| Database | [e.g., PostgreSQL] | [e.g., Storing pipeline events and scores] |
-| Notifications | [e.g., Slack API] | [e.g., Alerting on threshold breaches] |
+Frontend – React: Provides the dashboard and user interaction.
+Backend – FastAPI: Handles business logic and connects the different components.
+AI / ML – watsonx.ai: Provides the planned AI-powered logistics assistant and inference support.
+Database – PostgreSQL: Stores operational data such as shipments, fleet, routes, and sensor information.
+Notifications – Slack Webhook: Used for sending operational alerts and notifications.
 
 ## Data Flow
 
-[Describe how data moves through your system from input to output.]
-
-1. [e.g., Pipeline logs are ingested via a webhook from GitHub Actions]
-2. [e.g., Logs are preprocessed and chunked into 512-token segments]
-3. [e.g., Each chunk is sent to the watsonx.ai inference endpoint]
-4. [e.g., Anomaly scores are stored in PostgreSQL]
-5. [e.g., The React dashboard polls the API every 30 seconds to refresh]
+1.The user interacts with the ChainGuard dashboard.
+2.The frontend sends requests to the FastAPI backend.
+3.The backend processes shipment, fleet, route, and temperature data.
+4.Relevant data can be sent to the AI service for analysis.
+5.The backend generates priorities, recommendations, alerts, and explanations.
+6.Results are displayed to the user through the dashboard.
 
 ## Security Considerations
 
-[Note any security decisions relevant to the architecture — even if basic.]
-
-- [e.g., API keys stored in environment variables, never committed to git]
-- [e.g., All API routes require a Bearer token]
-- [e.g., Database credentials rotated via IBM Secrets Manager]
+Keep API keys and credentials in environment variables.
+Do not commit sensitive credentials to GitHub.
+Validate user inputs and API requests.
+Use secure communication between system components.
 
 ## Scalability Notes
 
-[Optional: how would this scale beyond the hackathon prototype?]
-
-[e.g., "The FastAPI backend is stateless and could be horizontally scaled behind a load balancer. The watsonx.ai calls are the bottleneck and would benefit from request batching."]
+The architecture can be scaled by connecting live TMS, GPS, carrier, weather, and IoT data sources. The AI layer can also be expanded for predictive disruption detection and more advanced logistics recommendations.
