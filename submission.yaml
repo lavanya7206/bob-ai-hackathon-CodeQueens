@@ -9,21 +9,325 @@
 # =============================================================================
 
 team:
-  name: ""                             # REQUIRED — e.g., "Orion Squad"
-  track: ""                            # REQUIRED — one of: AI | DevOps | Sustainability | Open
+  name: ""                          CodeQueens
+  track: ""                            AI
   lead:
-    name: ""                           # REQUIRED — e.g., "Alice Chen"
-    email: ""                          # REQUIRED — e.g., "alice.chen@ibm.com"
+    name: ""                          LAVANYA PAREKH
+    email: ""                        parekhlavanya@gmail.com
   members:
-    - name: ""                         # REQUIRED — Team member 1
-      email: ""
-    - name: ""                         # Add more members by copying the two lines above
-      email: ""
-    - name: ""
-      email: ""
+    - name: ""                      VIDHI PAREKH
+      email: ""                     vidhiparekh2104@gmail.com
+    - name: ""                      SAKSHI KOTHIA
+      email: ""                     kothiasakshi28@gmail.com
+    - name: ""                      TANISHA KOTHADIA
+      email: ""                     tanishakothadia@gmail.com
 
 submission:
-  title: ""                            # REQUIRED — Project display name, e.g., "SmartOps Dashboard"
+  title: ""                          # ChainGuard AI — Implementation Plan
+
+## Top-Level Overview
+
+**Goal:** Build a fully browser-based, single-page hackathon prototype called *ChainGuard AI* that demonstrates AI-powered supply chain disruption detection, shipment risk analysis, fleet intelligence, cold-chain monitoring, and an AI assistant — all running from a small set of static HTML/CSS/JS files with no server or build step.
+
+**Scope:**
+- One primary `index.html` file that bootstraps the app
+- One `app.js` file containing all data, state, and interaction logic
+- One `styles.css` file for all visual styling
+- All data is realistic mock data defined in JavaScript
+- Leaflet.js loaded from CDN for the interactive map
+- Chart.js loaded from CDN for temperature and fleet charts
+- No backend, no API keys, no build tools required
+
+**Approach:**
+Build the app section by section, with each sub-task delivering a complete, demoable piece of the dashboard. Each sub-task is self-contained so it can be reviewed before moving on.
+
+---
+
+## Architecture Overview
+
+```
+index.html          — shell, CDN script tags, sidebar nav, section containers
+styles.css          — all layout, colors, typography, component styles
+app.js              — mock data, state machine, all JS logic split into modules
+```
+
+**Navigation sections (sidebar):**
+1. Overview (KPI summary cards)
+2. Disruption Monitor
+3. Shipment Risk Analysis
+4. Fleet Intelligence
+5. Cold-Chain Monitor
+6. AI Assistant
+
+---
+
+## Sub-Tasks
+
+---
+
+### Sub-Task 1 — Project Shell & Design System
+
+**Intent:**
+Establish the HTML skeleton, sidebar navigation, CSS design system (colors, typography, spacing, card components), and the empty section containers that all later sub-tasks will populate. This defines the visual language for the entire prototype.
+
+**Expected Outcomes:**
+- Opening `index.html` in a browser shows the full sidebar and main content area
+- Sidebar links highlight the active section
+- Switching between sections shows/hides the correct panel
+- The visual style matches a professional dark-themed logistics dashboard
+- CDN libraries (Leaflet, Chart.js) are loaded and available
+
+**Todo List:**
+1. Create `index.html` with `<head>` loading CDN scripts (Leaflet 1.9, Chart.js 4.x) and local `styles.css` and `app.js`
+2. Add sidebar HTML with logo, nav items for each of the 6 sections, and a status indicator
+3. Add main content area with six `<section>` containers, each with an `id` matching its nav item
+4. Write `styles.css`: CSS variables for color palette (dark navy background, accent blue/green/amber/red), typography scale, card/panel component, badge styles, button styles, sidebar layout, responsive grid
+5. Write the section-switcher logic in `app.js` (show/hide sections on nav click, set active state)
+6. Add a top header bar showing app name, a live clock, and a "Simulate Disruption" trigger button
+
+**Relevant Context:**
+- All six section containers must exist in HTML from this step onward so later sub-tasks can just populate them
+- The color palette should support severity levels: green (normal), amber (warning), red (critical)
+- Status: `[ ] pending`
+
+---
+
+### Sub-Task 2 — Mock Data Layer
+
+**Intent:**
+Define all the realistic mock data that the entire application will use. Centralizing it in one place makes the rest of the app clean and makes the demo easy to customize.
+
+**Expected Outcomes:**
+- `app.js` exports a single `MOCK_DATA` object accessible to all other modules
+- Data covers shipments, disruptions, fleet vehicles, and temperature sensor readings
+- Data is realistic enough to tell a compelling story during the demo
+
+**Todo List:**
+1. Define `MOCK_DATA.shipments`: array of ~15 shipments, each with id, origin, destination, cargo type, status (on-time / at-risk / disrupted), current location lat/lng, route waypoints, carrier, ETA, risk score (0–100), cold-chain flag
+2. Define `MOCK_DATA.disruptions`: array of ~5 active disruptions, each with id, type (hurricane / port closure / road closure / geopolitical), severity (low/medium/high/critical), affected region polygon (lat/lng array), affected shipment ids, description, recommended action
+3. Define `MOCK_DATA.fleet`: array of ~20 vehicles, each with id, type (truck / van / refrigerated truck), status (active / idle / maintenance), current location lat/lng, last assignment, utilization percentage, available capacity
+4. Define `MOCK_DATA.temperatureReadings`: array of cold-chain shipment sensor logs — each entry has shipment id, timestamp series, temperature readings array, min/max safe range, current status (in-range / warning / excursion)
+5. Define `MOCK_DATA.kpis`: summary numbers used on the Overview panel (total shipments, at-risk count, idle fleet count, active disruptions, on-time rate)
+6. Define `MOCK_DATA.aiResponses`: a keyed map of pre-scripted AI explanation templates for each disruption type and action type (used by the AI Assistant in Sub-Task 7)
+
+**Relevant Context:**
+- Shipment route waypoints should be realistic lat/lng arrays so Leaflet can draw polylines
+- At least 3 shipments should be marked as disrupted/at-risk to make the demo impactful
+- At least 2 fleet vehicles near disrupted routes should be marked idle for redeployment demo
+- At least 2 cold-chain shipments should have temperature excursions
+- Status: `[ ] pending`
+
+---
+
+### Sub-Task 3 — Overview Dashboard (KPI Cards)
+
+**Intent:**
+Build the Overview section — the first thing a judge sees when opening the app. It shows high-level KPIs and a summary of the current situation at a glance.
+
+**Expected Outcomes:**
+- Overview section shows 5–6 KPI cards with live numbers from mock data
+- Cards use color-coded severity (green/amber/red) based on thresholds
+- A "Recent Alerts" feed shows the latest 3 disruption events as timestamped entries
+- Numbers auto-update every 30 seconds with slight random variation to simulate a live feed
+
+**Todo List:**
+1. Build the KPI card HTML template and render cards from `MOCK_DATA.kpis` into the Overview section
+2. Style cards with icon, large number, label, and colored border/background based on severity threshold
+3. Build the Recent Alerts feed as a scrollable list of alert items with severity badge, message, and timestamp
+4. Write an `updateKPIs()` function that slightly varies the numbers on a timer to simulate live data
+5. Wire the "Simulate Disruption" header button to spike the at-risk count and inject a new alert into the feed
+
+**Relevant Context:**
+- KPI cards: Total Shipments, At-Risk Shipments, Active Disruptions, Idle Fleet Assets, On-Time Rate %, Cold-Chain Excursions
+- Status: `[ ] pending`
+
+---
+
+### Sub-Task 4 — Disruption Monitor (Map + Disruption List)
+
+**Intent:**
+Build the interactive Leaflet map showing shipment routes, disruption zone overlays, and affected shipment markers. This is the most visually striking section of the demo.
+
+**Expected Outcomes:**
+- Leaflet map renders centered on North America with tile layer
+- Each shipment route is drawn as a polyline, colored by status (green/amber/red)
+- Each active disruption is shown as a shaded polygon overlay with a popup label
+- Clicking a disruption polygon opens a sidebar panel with its details and affected shipments
+- Clicking a shipment marker shows its details and risk score
+- A disruption list panel alongside the map lists all active disruptions with severity badges
+
+**Todo List:**
+1. Initialize Leaflet map in the Disruption Monitor section with a free tile layer (OpenStreetMap)
+2. Render shipment route polylines from waypoint arrays, colored by shipment status
+3. Add circle/marker icons at shipment current locations with color-coded status
+4. Render disruption zone polygons from region arrays with semi-transparent fill colored by severity
+5. Add click handlers on polygons to highlight affected shipment routes and show a detail card
+6. Build the disruption list panel alongside the map — each item shows type icon, severity badge, affected count, and a "View on Map" button that pans the map to that disruption
+7. Add a map legend (route status colors, disruption severity colors)
+
+**Relevant Context:**
+- Leaflet is already loaded from CDN in Sub-Task 1
+- The map must initialize only when the Disruption Monitor section is first shown (to avoid Leaflet sizing bugs with hidden containers)
+- Status: `[ ] pending`
+
+---
+
+### Sub-Task 5 — Shipment Risk Analysis Panel
+
+**Intent:**
+Build the Shipment Risk Analysis section — a filterable table/card list of all shipments ranked by risk score, with rerouting recommendations for at-risk/disrupted shipments.
+
+**Expected Outcomes:**
+- All shipments are listed with their risk score shown as a colored progress bar
+- Filter buttons allow showing All / At-Risk / Disrupted / On-Time shipments
+- Clicking a shipment expands a detail drawer showing cargo, carrier, ETA, risk factors, and the AI rerouting recommendation
+- Rerouting recommendation cards show alternative route, estimated delay saved, and confidence level
+- A "Accept Reroute" button marks the shipment as rerouted (visual state change)
+
+**Todo List:**
+1. Build the shipment list as a card grid, each card showing id, origin→destination, status badge, risk score bar, and cargo type icon
+2. Add filter button bar (All / At-Risk / Disrupted / On-Time) that filters the displayed cards
+3. Build an expandable detail drawer/modal for each shipment card
+4. Populate the detail drawer: cargo details, current route, disruption reason, and a rerouting recommendation block
+5. Rerouting recommendation block: alternative route description, delay impact (+/- hours), confidence % badge, "Accept Reroute" button
+6. Wire "Accept Reroute" to update the shipment's status to "Rerouted" and reflect that in the card
+
+**Relevant Context:**
+- Rerouting recommendations are static text per shipment in `MOCK_DATA`, not computed — keep it simple
+- Risk score bar: 0–40 green, 41–70 amber, 71–100 red
+- Status: `[ ] pending`
+
+---
+
+### Sub-Task 6 — Fleet Intelligence Panel
+
+**Intent:**
+Build the Fleet Intelligence section showing all fleet vehicles, their utilization, idle asset detection, and redeployment suggestions.
+
+**Expected Outcomes:**
+- A grid of vehicle cards shows all fleet assets with status and utilization bar
+- Idle vehicles are visually highlighted and grouped at the top
+- A "Redeployment Opportunities" block lists idle vehicles near disrupted routes with suggested assignments
+- A Chart.js bar chart shows fleet utilization distribution across vehicle types
+- Clicking a vehicle card shows its location context and suggested assignment
+
+**Todo List:**
+1. Render vehicle cards from `MOCK_DATA.fleet` with id, type icon, status badge, utilization bar, and last-assignment text
+2. Sort/group so idle vehicles appear first; add a highlighted "IDLE — Available for Redeployment" banner on idle cards
+3. Build the Redeployment Opportunities panel: list idle vehicles with a suggested shipment/route to cover and a "Assign" button
+4. Wire "Assign" button to change the vehicle status to "Active" and remove it from the idle list
+5. Initialize a Chart.js horizontal bar chart showing utilization % per vehicle type group (Trucks, Vans, Refrigerated)
+6. Add a summary line: "X idle assets identified — estimated recovery value $Y" using mock numbers
+
+**Relevant Context:**
+- Vehicle type icons can be Unicode emoji or simple SVG inline icons
+- Chart.js is already loaded from CDN
+- Status: `[ ] pending`
+
+---
+
+### Sub-Task 7 — Cold-Chain Temperature Monitor
+
+**Intent:**
+Build the Cold-Chain Monitor section showing temperature sensor data for refrigerated shipments, with Chart.js line charts, excursion detection, and severity classification.
+
+**Expected Outcomes:**
+- Each cold-chain shipment is shown with a Chart.js line chart of its temperature history
+- Safe range is shown as a shaded band on the chart
+- Excursions (out-of-range readings) are highlighted with red markers on the chart
+- An excursion severity badge (Minor / Moderate / Critical) appears based on how far/long the temperature deviated
+- An alert banner appears for shipments currently in excursion
+- A "Log Corrective Action" button triggers a mock corrective action entry
+
+**Todo List:**
+1. Render a card per cold-chain shipment containing product name, current temperature reading, status badge, and a Chart.js line chart
+2. Configure each line chart with: temperature line, upper/lower safe limit lines (dashed), shaded safe zone, red point markers on excursion readings
+3. Write `classifyExcursion(readings, safeRange)` function that returns severity: Minor (< 2°C deviation < 30 min), Moderate (2–5°C or 30–60 min), Critical (> 5°C or > 60 min)
+4. Display severity badge on each card using classification result
+5. Add a red alert banner at the top of the section listing all currently active excursions with shipment id and severity
+6. Wire "Log Corrective Action" to append a timestamped entry to a mock action log visible on the card
+
+**Relevant Context:**
+- Temperature data arrays in `MOCK_DATA.temperatureReadings` include timestamps so the chart x-axis shows time
+- Use Chart.js annotation plugin (via CDN) or manually draw limit lines as additional datasets
+- Status: `[ ] pending`
+
+---
+
+### Sub-Task 8 — AI Assistant Panel
+
+**Intent:**
+Build the AI Assistant section — a chat-style interface where the user can ask questions about disruptions, shipments, or fleet status, and receive pre-scripted but contextually accurate explanations. This is the "wow factor" for the demo.
+
+**Expected Outcomes:**
+- A chat UI with a message history area and an input box
+- Pre-defined quick-action buttons for common demo questions (e.g. "What's causing the most disruption?", "Which shipments need rerouting?", "Find idle assets near disrupted routes")
+- Typing a question or clicking a quick-action button produces a well-written, context-aware response pulled from `MOCK_DATA.aiResponses`
+- The assistant references real shipment IDs, disruption names, and vehicle IDs from the mock data in its responses
+- Responses appear with a typing animation (simulated delay) for realism
+- A "Copy Recommendation" button on each response copies the text to clipboard
+
+**Todo List:**
+1. Build chat UI layout: scrollable message history div, fixed input row with text field and Send button, quick-action button strip above input
+2. Write `matchQuery(userInput)` function that maps keywords to response template keys (e.g. "reroute" → rerouting template, "idle" → fleet template)
+3. Populate `MOCK_DATA.aiResponses` with 8–10 richly written response templates referencing real mock data entities
+4. Write `sendMessage(text)` function: append user bubble, show typing indicator, resolve template, append assistant bubble after 800ms delay
+5. Add quick-action buttons: "Explain top disruption", "Which shipments need rerouting?", "Find idle assets", "Show cold-chain alerts", "Give me a full situation report"
+6. Wire "Copy Recommendation" button using `navigator.clipboard.writeText()`
+7. Add a persistent "Situation Summary" card at the top of the AI panel that auto-generates a 3-sentence summary from mock data on page load
+
+**Relevant Context:**
+- The assistant does NOT call any real AI API — all responses are templates
+- Response quality is the differentiator here — write the templates to sound analytical and specific
+- Status: `[ ] pending`
+
+---
+
+### Sub-Task 9 — Polish, Demo Flow & Final Integration
+
+**Intent:**
+Tie everything together: ensure all sections cross-link correctly, the demo flow is smooth, interactions feel live, and the visual quality is high enough to impress hackathon judges.
+
+**Expected Outcomes:**
+- Clicking a disruption in the Disruption Monitor can deep-link to the affected shipments in the Shipment Risk panel
+- Clicking a shipment's "View on Map" button navigates to the map and highlights that route
+- The "Simulate Disruption" button triggers a cascade: spikes KPIs, adds a disruption to the map, marks 2 shipments at-risk, and generates an AI assistant alert — all visible across sections
+- Page loads cleanly with no console errors
+- All interactive elements have hover states and cursor feedback
+- Mobile/narrow-screen graceful degradation (sidebar collapses to hamburger)
+- A brief "How to Demo" tooltip/guide is available via a help button
+
+**Todo List:**
+1. Implement cross-section navigation calls: `navigateTo(sectionId)` used by "View on Map", "View Shipments" buttons across panels
+2. Build the full "Simulate Disruption" cascade: update KPI state, push a new disruption into the map layer, mark two shipments as at-risk, post an AI assistant message automatically
+3. Add CSS hover transitions, loading skeleton for charts on first render, smooth section fade transitions
+4. Add a hamburger toggle for the sidebar on narrow screens
+5. Add a floating "?" help button that shows a demo script tooltip (key sections to click through, in order)
+6. Final pass: check all buttons work, all charts render, map loads, no JS errors in console
+
+**Relevant Context:**
+- This sub-task assumes all previous sub-tasks are complete
+- The simulate disruption feature is the single most important demo moment — make it dramatic
+- Status: `[ ] pending`
+
+---
+
+## File Structure
+
+```
+index.html      — app shell, CDN imports, section containers
+styles.css      — full design system and component styles
+app.js          — all data and logic
+```
+
+## Dependencies (all CDN, no install)
+
+| Library | Version | Purpose |
+|---|---|---|
+| Leaflet.js | 1.9.x | Interactive map |
+| Chart.js | 4.x | Temperature and fleet charts |
+| OpenStreetMap tiles | — | Map tile layer (free, no key) |
+
 
   problem_statement: >                 # REQUIRED — 1-3 sentences. What problem? Who has it?
     Replace this text with a concise description of the real-world problem
