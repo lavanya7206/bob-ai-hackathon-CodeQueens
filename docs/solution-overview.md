@@ -2,40 +2,48 @@
 
 ## What We Built
 
-[Describe your solution in plain language. Avoid jargon — write as if explaining to a smart colleague unfamiliar with your tech stack.]
+ChainGuard AI is a supply-chain disruption and fleet intelligence solution. It helps logistics operators identify affected shipments, prioritize risks, find alternative routes, match available vehicles, and detect cold-chain temperature risks.It provides clear and explainable recommendations instead of making teams handle every disruption manually.
 
 ## How It Works
 
-[Explain the core mechanism step by step. A numbered list or simple flow works well here.]
+1. A road, route, or facility disruption is simulated.
+2. ChainGuard identifies the shipments affected by the disruption.
+3. The system calculates a risk score for each affected shipment.
+4. Alternative routes and available fleet vehicles are evaluated.
+5. The system recommends a suitable route and vehicle.
+6. Temperature data is checked to identify cold-chain risks.
+7. The operator receives priorities, recommendations, alerts, and explanations.
 
-1. [Step 1: e.g., "User connects their GitHub repository via OAuth"]
-2. [Step 2: e.g., "The system ingests pipeline logs and feeds them to watsonx.ai"]
-3. [Step 3: e.g., "An anomaly score is computed and displayed on the dashboard"]
-4. [Step 4: e.g., "Alerts are sent to Slack when the score exceeds a threshold"]
+**Flow:** Detect → Prioritize → Recommend → Act
 
 ## Architecture Diagram
 
-> See [`architecture.md`](architecture.md) for the detailed diagram.
-
-[Optionally include a simple ASCII or Mermaid diagram here for quick reference.]
-
-```
-[User] → [Frontend: React] → [API: FastAPI] → [watsonx.ai] → [Dashboard]
-                                    ↓
-                             [PostgreSQL DB]
-```
+```text
+[Logistics Operator]
+        ↓
+[Dashboard / Demo Mode / AI Assistant]
+        ↓
+[Data Layer]
+Shipments • Fleet • Routes • IoT Readings
+        ↓
+[Decision Engine]
+Risk Scoring • Route Selection
+Fleet Matching • Temperature Rules
+        ↓
+[Action Layer]
+Priorities • Recommendations
+Alerts • Explanations
 
 ## Key Design Decisions
 
-| Decision | Rationale |
-|---|---|
-| [e.g., Used watsonx.ai for anomaly detection] | [e.g., Pre-trained models reduced time-to-value vs. building from scratch] |
-| [Decision 2] | [Rationale 2] |
-| [Decision 3] | [Rationale 3] |
+Rule-based risk scoring – Provides simple and explainable shipment risk decisions.
+Route optimization – Recommends alternate routes when a disruption occurs.
+Fleet matching – Matches affected shipments with suitable idle vehicles.
+Cold-chain monitoring – Detects temperature excursions and identifies their severity.
+Mock operational data – Keeps the prototype self-contained and easy to demonstrate.
+Explainable recommendations – Shows the reason behind priorities and suggested actions.
 
 ## IBM Technologies Used
 
-[Explain specifically HOW you used each IBM technology — not just that you used it.]
-
-- **[IBM Tech 1, e.g., watsonx.ai]:** [How it was used — e.g., "Used the `ibm/granite-13b-instruct-v2` model via the Python SDK to classify anomaly types from log text."]
-- **[IBM Tech 2]:** [How it was used]
+IBM Bob: Used as an AI development partner for project planning, architecture, code generation, debugging, UI improvements, and documentation.
+watsonx.ai: Planned integration path for an LLM-powered logistics copilot that can answer natural-language operational queries using shipment, fleet, and sensor context.
