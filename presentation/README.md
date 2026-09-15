@@ -1,30 +1,27 @@
-# Presentation
+# ChainGuard AI
 
-Place your slide deck in this folder.
+**ChainGuard AI** is an AI-powered supply-chain disruption and fleet intelligence solution that helps logistics teams respond quickly to disruptions.
 
-## Accepted Formats
+### Key Features
 
-  slides.pdf      ← Preferred (universally viewable)
-  slides.pptx     ← Acceptable
-  slides.key      ← Acceptable (macOS Keynote)
+* Detect affected shipments
+* Score shipment risk
+* Recommend routes and idle vehicles
+* Monitor cold-chain temperature risks
+* Provide explainable recommendations
 
-Rename your file to `slides.pdf` (or `slides.pptx`) so the evaluation
-pipeline can locate it reliably.
+### How It Works
 
-## Recommended Slide Structure (5–8 slides)
+**Detect → Prioritize → Recommend → Act**
 
-  Slide 1: Title — Project name, team name, track
-  Slide 2: Problem — What problem? Who has it? Why does it matter?
-  Slide 3: Solution — What you built in one clear diagram or screenshot
-  Slide 4: Architecture — How the system works technically
-  Slide 5: Demo / Key Feature — Screenshot or flow of your best feature
-  Slide 6: IBM Technologies — Specifically how you used them
-  Slide 7: Results / Impact — What does success look like? Any metrics?
-  Slide 8: Team — Names, roles, what each person built
+### Technology
 
-## Tips
+* **IBM Bob** – AI-assisted development, planning, coding, and debugging
+* **watsonx.ai** – planned integration for an AI logistics copilot
 
-- Keep slides visual — diagrams beat bullet points
-- One idea per slide
-- Font size minimum 24pt for readability
-- Do not paste large code blocks into slides — reference the repo instead
+### Impact
+
+**Faster response • Lower costs • Better fleet utilization • Reduced cold-chain risk**
+
+**Hackathon 2026 | Built with IBM Bob** 
+
